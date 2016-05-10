@@ -22,13 +22,13 @@ HOST_URL = process.env.HUBOT_URL || "https://astroscrum-slackbot.herokuapp.com"
 url = process.env.HUBOT_ASTROSCRUM_URL || "https://astroscrum-api.herokuapp.com/v1"
 
 # Default time to tell users to do their scrum
-PROMPT_AT = process.env.HUBOT_SCRUM_PROMPT_AT || "0 6 * * * 1-5" # 6am everyday
+PROMPT_AT = process.env.HUBOT_SCRUM_PROMPT_AT || "0 6 * * * *" # 6am everyday
 
 # Default scrum reminder time
-REMIND_AT = process.env.HUBOT_SCRUM_REMIND_AT || "30 11 * * * 1-5" # 11:30am everyday
+REMIND_AT = process.env.HUBOT_SCRUM_REMIND_AT || "30 11 * * * *" # 11:30am everyday
 
 # Send the scrum at 10 am everyday
-SUMMARY_AT = process.env.HUBOT_SCRUM_SUMMARY_AT || "0 12 * * * 1-5" # noon
+SUMMARY_AT = process.env.HUBOT_SCRUM_SUMMARY_AT || "0 12 * * * *" # noon
 
 # Set to local timezone
 TIMEZONE = process.env.TZ || "America/Los_Angeles"
@@ -97,10 +97,11 @@ setup = (robot, handler) ->
 # Templates
 templates =
   players: (players) ->
+  
     source = """
-      {{#players}}
-      *{{real_name}}* ({{points}})
-      {{/players}}
+      {{#each players}}
+      *{{real_name}}*
+      {{/each}}
     """
     template = Handlebars.compile(source)
     template(players)
@@ -108,26 +109,30 @@ templates =
   summary: (resp) ->
     scrum = resp.scrum
 
-    console.log(scrum)
-
     source = """
-    Team summary for {{date}}:
-    {{#players}}
-    {{#filed}}
-    *{{real_name}}* ({{points}})
-    {{#categories}}
-      {{category}}: {{#each entries}}{{body}}; {{/each}}
-    {{/categories}}
-    {{/filed}}
-
-    Not filed:
-    {{#not_filed}}
-    *{{real_name}}* ({{points}})
-    {{/not_filed}}
-    {{/players}}
+      Scrum Summary: {{date}}
+      {{#each players}}
+        *{{name}}*:
+        {{#each categories}}
+          *{{category}}*:
+          {{#each entries}}
+            - {{body}}: {{points}}
+          {{/each}}
+        {{/each}}
+      {{/each}}
     """
 
-    template = Handlebars.compile(source)
+    source2 = """
+      Scrum Summary: {{date}}
+      {{#each players.filed}}
+        *{{name}}*:
+        {{#each categories}}
+          *{{category}}*:{{#each entries}} {{body}}; {{/each}}
+        {{/each}}
+      {{/each}}
+    """
+
+    template = Handlebars.compile(source2)
     template(scrum)
 
   join: (player) ->
@@ -150,9 +155,9 @@ templates =
     console.log(entries)
     source = """
       Okay, I deleted these entries:
-      {{#entries}}
+      {{#each entries}}
         • {{category}}: {{body}} (-{{points}})
-      {{/entries}}
+      {{/each}}
     """
     template = Handlebars.compile(source)
     template(entries)
@@ -166,12 +171,6 @@ templates =
        • *today*
        • *yesterday*
        • *blocked* (optional)
-
-      You can find additional help:
-       • in our Slack channel slack.astroscrum.com
-       • in Github issues github.com/astroscrum/hubot-astroscrum/issues
-       • by checking status.astroscrum.com to see if their is a system issue
-       • by tweeting to us twitter.com/astroscrum
     """
     template = Handlebars.compile(source)
     template(player)
