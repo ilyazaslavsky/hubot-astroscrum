@@ -39,6 +39,10 @@ commandMap =
   '-24': "-24"
   'today': "+24"
   'yesterday': "-24"
+  'tomorrow': "+24"
+  'blockers': 'blocked'
+  'blocking': 'blocked'
+  'waiting': 'blocked'
 
 # Handlebars
 Handlebars = require('handlebars')
@@ -171,11 +175,11 @@ templates =
   help: (player) ->
     console.log(player)
     source = """
-      Hey {{player.name}}, you can say "today I need to organize my desk", "yesterday I cleaned up some code", or "blocked @mogramer owes me something".
+      Hey {{player.name}}, you can say "+24 I need to organize my desk", "-24 I cleaned up some code", or "blocked @mogramer owes me something".
 
       You can enter something for each of these:
-       • *today*
-       • *yesterday*
+       • *+24*
+       • *-24*
        • *blocked* (optional)
     """
     template = Handlebars.compile(source)
@@ -234,7 +238,7 @@ module.exports = (robot) ->
       response = JSON.parse(response)
       robot.send { room: msg.envelope.user.name }, templates.del(response)
 
-  robot.respond /(today|yesterday|blocked|\-24|\+24) (.*)/i, (msg) ->
+  robot.respond /(today|yesterday|blocked|\-24|\+24|tomorrow|blockers|blocking|waiting) (.*)/i, (msg) ->
     mappedCategory = commandMap[msg.match[1]]
     player = robot.brain.userForId(msg.envelope.user.id)
     data =
