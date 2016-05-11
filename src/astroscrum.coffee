@@ -33,6 +33,12 @@ SUMMARY_AT = process.env.HUBOT_SCRUM_SUMMARY_AT || "0 12 * * * *" # noon
 # Set to local timezone
 TIMEZONE = process.env.TZ || "America/Los_Angeles"
 
+# Map commands to +24/-24
+commandMap =
+  '+24': '+24'
+  '-24': "-24"
+  'today': "+24"
+  'yesterday': "-24"
 
 # Handlebars
 Handlebars = require('handlebars')
@@ -229,11 +235,12 @@ module.exports = (robot) ->
       robot.send { room: msg.envelope.user.name }, templates.del(response)
 
   robot.respond /(today|yesterday|blocked|\-24|\+24) (.*)/i, (msg) ->
+    mappedCategory = commandMap[msg.match[1]]
     player = robot.brain.userForId(msg.envelope.user.id)
     data =
       entry:
         slack_id: player.id
-        category: msg.match[1]
+        category: mappedCategory
         body: msg.match[2]
 
     post '/entries', data, (response) ->
