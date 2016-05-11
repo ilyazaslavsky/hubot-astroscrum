@@ -228,7 +228,7 @@ module.exports = (robot) ->
       response = JSON.parse(response)
       robot.send { room: msg.envelope.user.name }, templates.del(response)
 
-  robot.respond /(today|yesterday|blocked) (.*)/i, (msg) ->
+  robot.respond /(today|yesterday|blocked|\-24|\+24) (.*)/i, (msg) ->
     player = robot.brain.userForId(msg.envelope.user.id)
     data =
       entry:
