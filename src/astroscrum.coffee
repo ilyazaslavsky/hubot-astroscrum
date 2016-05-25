@@ -100,6 +100,7 @@ setup = (robot, handler) ->
       summary_at: SUMMARY_AT
 
   post '/team', data, (response) ->
+    console.log "team raw:", response
     response = JSON.parse(response)
     handler response
     console.log "hubot-astroscrum connected to:", url
