@@ -43,6 +43,7 @@ commandMap =
   'blockers': 'blocked'
   'blocking': 'blocked'
   'waiting': 'blocked'
+  'blocked': 'blocked'
 
 # Handlebars
 Handlebars = require('handlebars')
