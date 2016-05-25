@@ -127,7 +127,7 @@ templates =
         {{#each categories}}
           *{{category}}*:
           {{#each entries}}
-            - {{body}}: {{points}}
+            - {{{body}}: {{points}}
           {{/each}}
         {{/each}}
       {{/each}}
@@ -138,7 +138,7 @@ templates =
       {{#each players.filed}}
         *{{name}}*:
         {{#each categories}}
-          *{{category}}*:{{#each entries}} {{body}}; {{/each}}
+          *{{category}}*:{{#each entries}} {{{body}}}; {{/each}}
         {{/each}}
       {{/each}}
     """
@@ -167,7 +167,7 @@ templates =
     source = """
       Okay, I deleted these entries:
       {{#each entries}}
-        • {{category}}: {{body}} (-{{points}})
+        • {{category}}: {{{body}} (-{{points}})
       {{/each}}
     """
     template = Handlebars.compile(source)
