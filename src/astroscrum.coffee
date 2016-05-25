@@ -157,7 +157,7 @@ templates =
   entry: (entry) ->
     console.log(entry)
     source = """
-      Got it! {{entry.category}}, {{entry.body}}
+      Got it! {{entry.category}}, {{{entry.body}}}
     """
     template = Handlebars.compile(source)
     template(entry)
