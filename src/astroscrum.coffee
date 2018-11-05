@@ -208,15 +208,15 @@ module.exports = (robot) ->
 
     post '/slack/join', data, (response) ->
       response = JSON.parse(response)
-      robot.send { room: msg.envelope.user.name }, templates.join(response)
+      robot.send { room: '@' + msg.envelope.user.name }, templates.join(response)
 
   robot.respond /scrum players/i, (msg) ->
     get '/players', (response) ->
-      robot.send { room: msg.envelope.user.name }, templates.players(response)
+      robot.send { room: '@' + msg.envelope.user.name }, templates.players(response)
 
   robot.respond /scrum summary/i, (msg) ->
     get '/scrum', (response) ->
-      robot.send { room: msg.envelope.user.name }, templates.summary(response)
+      robot.send { room: '@' + msg.envelope.user.name }, templates.summary(response)
 
   robot.respond /scrum notifications (on|off)/i, (msg) ->
     player = robot.brain.userForId(msg.envelope.user.id)
@@ -227,7 +227,7 @@ module.exports = (robot) ->
 
     put '/players/' + player.id, data, (response) ->
       response = JSON.parse(response)
-      robot.send { room: msg.envelope.user.name }, "notifications are off" # templates.join(response)
+      robot.send { room: '@' + msg.envelope.user.name }, "notifications are off" # templates.join(response)
 
   robot.respond /scrum clear/i, (msg) ->
     player = robot.brain.userForId(msg.envelope.user.id)
@@ -238,7 +238,7 @@ module.exports = (robot) ->
 
     del '/entries', data, (response) ->
       response = JSON.parse(response)
-      robot.send { room: msg.envelope.user.name }, templates.del(response)
+      robot.send { room: '@' + msg.envelope.user.name }, templates.del(response)
 
   robot.respond /(today|yesterday|blocked|\-24|\+24|tomorrow|blockers|blocking|waiting) (.*)/i, (msg) ->
     mappedCategory = commandMap[msg.match[1]]
@@ -251,11 +251,11 @@ module.exports = (robot) ->
 
     post '/entries', data, (response) ->
       response = JSON.parse(response)
-      robot.send { room: msg.envelope.user.name }, templates.entry(response)
+      robot.send { room: '@' + msg.envelope.user.name }, templates.entry(response)
 
   robot.respond /scrum help/i, (msg) ->
     get '/players/' + msg.envelope.user.id, (response) ->
-      robot.send { room: msg.envelope.user.name }, templates.help(response)
+      robot.send { room: '@' + msg.envelope.user.name }, templates.help(response)
 
   # Direct message entire team
   robot.router.post "/hubot/astroscrum/announce", (req, res) ->
