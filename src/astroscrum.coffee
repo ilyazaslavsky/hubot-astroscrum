@@ -109,7 +109,7 @@ setup = (robot, handler) ->
 # Templates
 templates =
   players: (players) ->
-  
+
     source = """
       {{#each players}}
       *{{real_name}}*
@@ -270,5 +270,5 @@ module.exports = (robot) ->
     template = Handlebars.compile(req.body.template)
     for slack_id in req.body.players
       player = robot.brain.userForId(slack_id)
-      robot.send { room: player.name }, template(req.body.data)
+      robot.send { room: '@' + player.name }, template(req.body.data)
     res.send 'OK'
