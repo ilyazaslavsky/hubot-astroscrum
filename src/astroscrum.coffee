@@ -255,8 +255,6 @@ module.exports = (robot) ->
 
   robot.respond /scrum help/i, (msg) ->
     get '/players/' + msg.envelope.user.id, (response) ->
-      console.log('sending message to player: ')
-      console.log(player);
       robot.send { room: '@' + msg.envelope.user.name }, templates.help(response)
 
   # Direct message entire team
@@ -272,7 +270,5 @@ module.exports = (robot) ->
     template = Handlebars.compile(req.body.template)
     for slack_id in req.body.players
       player = robot.brain.userForId(slack_id)
-      console.log('sending message to player: ')
-      console.log(player);
       robot.send { room: player.name }, template(req.body.data)
     res.send 'OK'
