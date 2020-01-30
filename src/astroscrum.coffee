@@ -177,12 +177,20 @@ templates =
   help: (player) ->
     console.log(player)
     source = """
-      Hey {{player.name}}, you can say "+24 I need to organize my desk", "-24 I cleaned up some code", or "blocked @mogramer owes me something".
+      Hey {{player.name}},
+       If you haven't joined the scrum already, please type "scrum join" to receive daily reminders and
+       contribute your scrum updates. Each morning you will be pinged to remind you to provide your scrum update.
+
+       You can say "+24 I need to organize my desk", "-24 I cleaned up some code", or "blocked @mogramer owes me something".
 
       You can enter something for each of these:
        • *+24*
        • *-24*
        • *blocked* (optional)
+
+       If you make a mistake, say "scrum clear" to remove your entries.
+
+       If you'd like to see your own entries or the entries submitted so far type "scrum entry"
     """
     template = Handlebars.compile(source)
     template(player)
