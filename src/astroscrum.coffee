@@ -190,7 +190,7 @@ templates =
 
        If you make a mistake, say "scrum clear" to remove your entries.
 
-       If you'd like to see your own entries or the entries submitted so far type "scrum entry"
+       If you'd like to see your own entries or the entries submitted so far type "scrum summary"
     """
     template = Handlebars.compile(source)
     template(player)
