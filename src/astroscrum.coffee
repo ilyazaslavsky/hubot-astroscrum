@@ -64,6 +64,7 @@ get = (path, handler) ->
     token = JSON.parse(reply)["_private"]["astroscrum-auth-token"]
     options = { url: url + path, headers: "X-Auth-Token": token }
     Request.get options, (err, res, body) ->
+      console.log(body)
       handler JSON.parse(body)
 
 post = (path, data, handler) ->
