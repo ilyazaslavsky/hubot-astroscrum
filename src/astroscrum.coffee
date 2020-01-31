@@ -92,7 +92,7 @@ setup = (robot, handler) ->
   console.log(robot.adapter.client)
   data =
     team:
-      slack_id: robot.adapter.client.team.id
+      slack_id: 1 //teams no longer have ids
       name: robot.adapter.client.team.name
       bot_url: HOST_URL
       timezone: TIMEZONE
