@@ -89,6 +89,7 @@ del = (path, data, handler) ->
 
 
 setup = (robot, handler) ->
+  console.log(robot.adapter.client)
   data =
     team:
       slack_id: robot.adapter.client.team.id
