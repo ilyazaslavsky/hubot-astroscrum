@@ -93,7 +93,7 @@ setup = (robot, handler) ->
   data =
     team:
       slack_id: 1
-      name: robot.adapter.client.team.name
+      name: 'teamname'
       bot_url: HOST_URL
       timezone: TIMEZONE
       prompt_at: PROMPT_AT
